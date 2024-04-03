@@ -47,7 +47,7 @@ const FormikContainerLoginWithPass = () => {
     password: Yup.string()
       .required("وارد کردن رمز ضروری است ")
       .min(8, "رمز  باید حداقل  8 رقم باشد")
-      .matches(passRegExp, "رمز باید شامل حداقل یک حرف و حداقل یک عدد باشد"),
+     // .matches(passRegExp, "رمز باید شامل حداقل یک حرف و حداقل یک عدد باشد"),
   });
   const onSubmit = (
     values: LoginWithPassType,

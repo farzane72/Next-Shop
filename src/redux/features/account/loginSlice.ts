@@ -5,27 +5,7 @@ import { publicAxios } from "@/services/publicAxios";
 import { privateAxios } from "@/services/privateAxios";
 import SetCookie from "@/hooks/setCookie";
 import { SetLoacalStorage } from "@/hooks/localStorage";
-interface LoginType{
-    phone:string,
-    password?:string,
-    request_id?:string
-    error?:string,
-    loading?:Boolean
-    username?:string,
-    currentUrl?:string
-}
-interface SetPassType{
-  
-  password:string,
-  username?:string
-  
-}
-interface LoginWithPassType{
-  
-  password:string,
-  username:string
-  
-}
+import { LoginType,SetPassType,LoginWithPassType } from "./LoginSliceType";
 const initialState:LoginType  ={
     phone:"",
     password:"",
