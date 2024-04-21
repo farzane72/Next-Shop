@@ -1,4 +1,4 @@
-export interface user{
+export interface userType{
     phone:string,
     email:string,
     id:number,
@@ -18,7 +18,7 @@ export interface user{
    
     previous:string,
    
-    results:user[],
+    results:userType[],
     
     total_items:number
 
@@ -29,9 +29,23 @@ export interface PanelType{
     loading:boolean,
     error:any,
     currentPage:number,
-    usersLength:number
+   addOrEdit:string,
+   user:userType
 
 
  }
+ export interface AddUserType{
+   phone:string,
+   email:string
+
+
+}
+export interface EditUserType{
+  // phone:string,
+   email:string,
+   id:number
+
+
+}
 
  

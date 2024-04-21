@@ -27,6 +27,7 @@ privateAxios.interceptors.response.use((res)=> {
 
     return res
 }, async (error)=>{
+    console.log(error);
     const originalConfig = error.config
 
     if (error.response){
@@ -35,8 +36,8 @@ privateAxios.interceptors.response.use((res)=> {
             try {
                 //const currentRefreshToken = localStorage.getItem("refreshToken")
                 const currentRefreshToken = GetCookie("refresh")
-
-                const res = await publicAxios.post("auth/refresh/" , {
+                
+                const res = await publicAxios.post("/auth/refresh/" , {
                     refresh : currentRefreshToken
                 })
 
@@ -58,6 +59,8 @@ privateAxios.interceptors.response.use((res)=> {
             }
         }
     }
+
+    return Promise.reject(error)
 })
 
 export {privateAxios}

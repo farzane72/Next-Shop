@@ -1,0 +1,42 @@
+import { Field, ErrorMessage } from "formik";
+import { useAppDispatch } from "@/redux/store";
+import { useAppSelector } from "@/redux/store";
+import TextError from "./TextError";
+interface InputProps {
+  label: string;
+  placeHolder?: string;
+  name: string;
+}
+
+const Select: React.FunctionComponent<InputProps> = ({ name,placeHolder,label }) => {
+  const { addOrEdit, categories } = useAppSelector((store) => store.products);
+  return (
+    <div className=" flex items-center align-middle gap-1 w-[700px]  ">
+      <label className="text-sm text-gray-500 w-[150px]   ">{label}:</label>
+      <div className=" w-full ">
+        <Field
+          placeholder="Select"
+          name={name}
+          as="select"
+          className=" w-full border border-gray-500 p-2 rounded-md outline-none mb-2 placeholder-opacity-0 focus-within:border-[#b0882c] mt-4"
+        >
+
+        {/* <option className="text-gray-600" value="0">
+          انتخاب دسته بندی
+        </option> */}
+        {categories.results.map((item) => (
+          <option value={item.id} key={item.id}>
+            {item.title}
+          </option>
+        ))}
+        </Field>
+
+        <ErrorMessage name={name}>
+          {(msg) => <TextError>{msg}</TextError>}
+        </ErrorMessage>
+      </div>
+    </div>
+  );
+};
+
+export default Select;

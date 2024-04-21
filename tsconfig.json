@@ -33,7 +33,7 @@
       "@/redux/*": ["src/redux/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/redux/Providers.tsx", "src/redux/store.ts", "src/redux/features/account/loginSlice.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/redux/Providers.tsx", "src/redux/store.ts", "src/redux/features/account/loginSlice.ts", "src/app/(panel)/panel-admin/users/error.tsx"],
   //"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/core/services/privateAxios.js", "src/core/services/publicAxios.js"],
   "exclude": ["node_modules"]
 }

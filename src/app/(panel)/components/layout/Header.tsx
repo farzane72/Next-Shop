@@ -9,7 +9,7 @@ interface HeaderProps {
  
 const Header: React.FunctionComponent<HeaderProps> = () => {
     return ( 
-        <div className="bg-[#1d3855] px-8 py-4 flex justify-between">
+        <div className="bg-[#1d3855] px-8 py-4  md:flex md:justify-between hidden ">
 
            <div className="">
             <Image src="/images/logo.svg" width={100} height={80} alt="logo" />

@@ -1,21 +1,46 @@
+"use cliet";
 import Pagination from "../modules/Pagination";
 import { CiEdit } from "react-icons/ci";
-import { RiDeleteBin7Line } from "react-icons/ri";
+
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { CiCircleCheck } from "react-icons/ci";
 import { CiCircleRemove } from "react-icons/ci";
 import { useAppSelector } from "@/redux/store";
+import { setAddOrEdit } from "@/redux/features/panel/panelSlice";
+import { useAppDispatch } from "@/redux/store";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import ToastWithButton from "../modules/ToastWithButton";
+
 interface UsersPageProps {}
 
 const UsersPage: React.FunctionComponent<UsersPageProps> = () => {
   const { users } = useAppSelector((store) => store.panel);
-  
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  //-----------------------------------------------------------------------------------------------------------------------------
+  const addHandler = () => {
+    dispatch(setAddOrEdit("add"));
+    router.push("/panel-admin/users/add-user");
+  };
+  const editHandler = (id: number) => {
+    dispatch(setAddOrEdit("edit"));
+    router.push(`/panel-admin/users/edit-user/${id}`);
+  };
+  const detailHandler = (id: number) => {
+    router.push(`/panel-admin/users/details/${id}`);
+  };
   console.log(users.results);
   return (
     <div className="p-4 flex flex-col items-center  mt-4 gap-4  ">
-      <div className="p-2 bg-[#1d3855] rounded-md text-white self-start ">
+      <div
+        className="py-2 px-4 bg-[#1d3855] rounded-md text-white self-start my-4 "
+        onClick={addHandler}
+      >
         افزودن کاربر جدید
       </div>
+
       {/* overflow-x-auto  w-full */}
       <div className="w-full overflow-x-scroll   rounded-md ">
         <table className="w-full bg-white   border  ">
@@ -37,22 +62,30 @@ const UsersPage: React.FunctionComponent<UsersPageProps> = () => {
                 <td className=" p-2">{user.email}</td>
                 <td className=" p-2">{user.role}</td>
                 <td className=" p-2">
-                  {
-                    (user.has_password)?
+                  {user.has_password ? (
                     <CiCircleCheck className="text-2xl text-green-700" />
-                    :
-                    <CiCircleRemove />
-                  }
-                 
+                  ) : (
+                    <CiCircleRemove className="text-2xl text-red-700" />
+                  )}
                 </td>
                 <td className=" p-2 flex items-center gap-2 ">
-                  <CiEdit className="text-2xl text-green-700 cursor-pointer" />
-                  <RiDeleteBin7Line className="text-xl text-red-600 cursor-pointer" />
-                  <BiMessageSquareDetail className="text-xl text-[#1d3855] cursor-pointer" />
+                  <CiEdit
+                    className="text-2xl text-green-700 cursor-pointer"
+                    onClick={() => editHandler(user.id)}
+                  />
+                  <ToastWithButton
+                    title="حذف کاربر"
+                    question={`آیا مایل به حذف ${user.phone} هستید؟`}
+                    id={user.id}
+                    type="user"
+                  />
+                  <BiMessageSquareDetail
+                    className="text-xl text-[#1d3855] cursor-pointer"
+                    onClick={() => detailHandler(user.id)}
+                  />
                 </td>
               </tr>
             ))}
-            
           </tbody>
         </table>
       </div>
@@ -64,7 +97,8 @@ const UsersPage: React.FunctionComponent<UsersPageProps> = () => {
 
 export default UsersPage;
 
-{/* <tr className="bg-white border ">
+{
+  /* <tr className="bg-white border ">
               <td className="  p-2">1</td>
               <td className="  p-2 ">09119321901</td>
               <td className=" p-2">a@gmail.com</td>
@@ -77,20 +111,25 @@ export default UsersPage;
                 <RiDeleteBin7Line className="text-xl text-red-600 cursor-pointer" />
                 <BiMessageSquareDetail className="text-xl text-[#1d3855] cursor-pointer" />
               </td>
-            </tr> */}
-            {/* <tr className=" border ">
+            </tr> */
+}
+{
+  /* <tr className=" border ">
               <td className="  p-2">1</td>
               <td className="  p-2 ">09119321901</td>
               <td className=" p-2">a@gmail.com</td>
               <td className=" p-2">PanelAdminPage</td>
               <td className=" p-2">true</td>
               <td className=" p-2">icons</td>
-            </tr> */}
-            {/* <tr className="">
+            </tr> */
+}
+{
+  /* <tr className="">
               <td className="  p-2 ">1</td>
               <td className="  p-2 ">09119321901</td>
               <td className=" p-2">a@gmail.com</td>
               <td className=" p-2">PanelAdminPage</td>
               <td className=" p-2">true</td>
               <td className=" p-2">icons</td>
-            </tr> */}
+            </tr> */
+}
