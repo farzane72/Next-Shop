@@ -59,7 +59,7 @@ export interface ProductsType {
 
 export interface AddProductType {
   title: string;
-  category: number
+  category: number |undefined
   //category: number|GetCategoryType;
   price: number;
   inventory: number;
@@ -87,8 +87,13 @@ export interface ProductsSliceType {
   products: ProductsType;
   loading: boolean;
   error: any;
-  currentPage: number;
+  itemOffset: number;
   categories: CategoriesType;
   addOrEdit: string;
   product: DetailProductType;
+}
+export interface UpdateType{
+  data:AddProductType,
+  id:number
+
 }

@@ -1,10 +1,16 @@
-import FormikContainerProduct from "../forms/FormikContainerProduct";
+import FormikContainerEditProduct from "../forms/FormikContainerEditProduct";
 import { useAppSelector } from "@/redux/store";
-interface EditProductsProps {}
+import Specifications from "../modules/Specifications";
+interface EditProductsProps {
+  newSpecifications:any,
+  setNewSpecifications:any
+}
 
-const EditProductsPage: React.FunctionComponent<EditProductsProps> = () => {
+const EditProductsPage: React.FunctionComponent<EditProductsProps> = (props) => {
+  const {newSpecifications, setNewSpecifications}=props
   const { product } = useAppSelector((store) => store.products);
   const newProduct = {
+    id:product.id,
     title: product.title,
     category: product.category,
     price: product.price,
@@ -13,8 +19,9 @@ const EditProductsPage: React.FunctionComponent<EditProductsProps> = () => {
     specifications: { ...product.specifications },
     image_ids: [...product.images],
   };
+  console.log(newProduct);
 
-  return <FormikContainerProduct {...newProduct} />;
+  return <FormikContainerEditProduct {...newProduct}  newSpecifications={newSpecifications}setNewSpecifications={setNewSpecifications} />;
 };
 
 export default EditProductsPage;

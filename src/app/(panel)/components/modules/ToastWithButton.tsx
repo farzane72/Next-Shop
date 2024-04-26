@@ -4,6 +4,8 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import { ToastPropsType } from "../types/PanelFormTypes";
 import { useAppDispatch } from "@/redux/store";
 import { fetchDeleteUser } from "@/redux/features/panel/panelSlice";
+import { fetchDeleteProduct } from "@/redux/features/panel/productsSlice";
+
 import { useRouter } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
@@ -22,7 +24,12 @@ const ToastWithButton: React.FunctionComponent<ToastPropsType> = (props) => {
             onClick={() => {
               if (type === "user") {
                 dispatch(fetchDeleteUser(id));
-                revalidatePath("/panel-admin/users")
+                //revalidatePath("/panel-admin/users")
+            
+              }
+              if (type === "product") {
+                dispatch(fetchDeleteProduct(id));
+                //revalidatePath("/panel-admin/products")
             
               }
               toast.dismiss(t.id);

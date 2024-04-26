@@ -4,6 +4,7 @@ import {
   ProductsSliceType,
   AddProductType,
   DetailProductType,
+  UpdateType
 } from "./ProductsSliceType";
 import { publicAxios } from "@/services/publicAxios";
 import { privateAxios } from "@/services/privateAxios";
@@ -20,7 +21,7 @@ const initialState: ProductsSliceType = {
   },
   loading: false,
   error: "",
-  currentPage: 1,
+  itemOffset: 0,
   addOrEdit: "",
   categories: {
     count_items_current_page: 1,
@@ -72,7 +73,7 @@ export const fetchProducts = createAsyncThunk(
     console.log(offset);
     const res = await privateAxios.get(
       //${offset}
-      `/store/products/?offset10=&limit=10`
+      `/store/products/?offset=${offset}&limit=10`
     );
     // console.log(res);
     return res.data;
@@ -109,15 +110,15 @@ export const fetchGetProduct = createAsyncThunk(
     return res.data;
   }
 );
-// export const fetchUpdateProduct = createAsyncThunk(
-//   "products/fetchUpdateProduct",
-//   async (data: AddProductType, thunkAPI) => {
-//     const res = await privateAxios.put(`/store/products/${id}/`,data);
-//     console.log(res.data);
-//     return res.data;
-//   }
-// );
-export const fetchDeleteUser = createAsyncThunk(
+export const fetchUpdateProduct = createAsyncThunk(
+  "products/fetchUpdateProduct",
+  async ({data,id}:UpdateType, thunkAPI) => {
+    const res = await privateAxios.put(`/store/products/${id}/`,data);
+    console.log(res.data);
+    return res.data;
+  }
+);
+export const fetchDeleteProduct = createAsyncThunk(
   "products/fetchDeleteProduct",
   async (id: number, thunkAPI) => {
     const res = await privateAxios.delete(`/store/products/${id}/`);
@@ -131,9 +132,9 @@ export const ProductsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    // setPage(state, action: PayloadAction<number>) {
-    //   state.currentPage = action.payload;
-    // },
+    setPage(state, action: PayloadAction<number>) {
+      state.itemOffset = action.payload;
+    },
 
     setAddOrEdit(state, action: PayloadAction<string>) {
       state.addOrEdit = action.payload;
@@ -198,13 +199,24 @@ export const ProductsSlice = createSlice({
       })
       .addCase(fetchGetProduct.rejected, (state, action) => {
         // state.error = action.payload;
-      }),
+      })
 
   //----------------------------------------------------------------------------------------------------------------------
+  .addCase(fetchUpdateProduct.pending, (state, action) => {
+    state.loading = true;
+  })
+  .addCase(fetchUpdateProduct.fulfilled, (state, action) => {
+    
+
+    state.loading = false;
+  })
+  .addCase(fetchUpdateProduct.rejected, (state, action) => {
+    state.error = action.payload;
+  })
 });
 //------------------------------------------------------------------------------------------------------------
 
 export default ProductsSlice.reducer;
-export const { setAddOrEdit } = ProductsSlice.actions;
+export const { setAddOrEdit,setPage } = ProductsSlice.actions;
 
 //export const productsSelected=(store:ProductsSliceType) => store.products

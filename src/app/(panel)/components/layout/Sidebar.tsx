@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Link from "next/link";
 interface SidebarProps {}
 
 const Sidebar: React.FunctionComponent<SidebarProps> = () => {
@@ -18,9 +18,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = () => {
         </div>
       </div>
       <div className="bg-[#1d3855] bg-[url('/images/bg-sidebar.png')] flex flex-col gap-4 md:min-h-screen">
-        <span className="p-4">صفحه اصلی</span>
-        <span className="p-4">مدیریت کاربران</span>
-        <span className="p-4">مدیریت محصولات</span>
+        <Link href="/panel-admin" className="p-4"><span >صفحه اصلی</span></Link>
+        <Link href="/panel-admin/users" className="p-4"><span >مدیریت کاربران</span></Link>
+        <Link href="/panel-admin/products" className="p-4"><span >مدیریت محصولات</span></Link>
         <span className="p-4">مدیریت فروشندگان</span>
       </div>
     </div>

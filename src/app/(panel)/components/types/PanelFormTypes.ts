@@ -45,10 +45,30 @@ export type ProductType = {
   image_ids: number[]
   //  | ImageType[];
 };
+export type ProductEditType = {
+  id:number,
+  title: string;
+  category:any,
+  // category:string|number|{
+  //   id: number;
+  //   title: string;
+  //   sub_category: null;
+  // };
+
+  price: number;
+  inventory: number;
+  description: string;
+  specifications: any;
+
+  image_ids:  ImageType[];
+  newSpecifications:any,
+  setNewSpecifications:any
+};
 
 export type InitialProductType = {
   title: string;
-  category:number
+  category:any,
+  //category:number
     // | {
     //     id: number;
     //     title: string;
@@ -61,6 +81,24 @@ export type InitialProductType = {
 
   image_ids: number[]
   // |ImageType[];
+};
+
+export type InitialEditProductType = {
+  id:number,
+  title: string;
+  category:string|number|{
+        id: number;
+        title: string;
+        sub_category: null;
+      };
+  price: number;
+  inventory: number;
+  description: string;
+  specifications: {};
+
+  image_ids:ImageType[];
+  newSpecifications:any,
+  setNewSpecifications:any
 };
 
 export interface FileType {
@@ -78,7 +116,29 @@ export interface UploderType {
   length: number;
 }
 export interface ImageProductProps {
-  image_ids: number[]
+  images: number[]
   // |ImageType[];
-  setImage_ids: any;
+  setImages: any;
 }
+// export interface DetailProductType {
+//   id: number;
+//   title: string;
+//   slug: string;
+//   category: GetCategoryType;
+//   thumbnail: null;
+//   seller: {
+//     id: number;
+//     first_name: string;
+//     last_name: string;
+//     company_name: string;
+//     gender: string;
+//   };
+//   price: number;
+//   viewer: number;
+//   status: string;
+//   images: ImageType[];
+//   inventory: number;
+//   description: string;
+//   specifications: {};
+//   comments: [];
+// }

@@ -3,14 +3,21 @@ import { useState } from "react";
 import { ImageProductProps, FileType } from "../types/PanelFormTypes";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import { privateAxios } from "@/services/privateAxios";
+import { useAppSelector } from "@/redux/store";
 import { Field } from "formik";
+import toast from "react-hot-toast";
 
 const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
-  const { image_ids, setImage_ids } = props;
+  const { images, setImages } = props;
   const [selectedImage, setSelectedImage] = useState<any>(null);
+  const { product } = useAppSelector((store) => store.products);
 
+ // console.log(product.images.length)
+
+//console.log(product);
   const saveHandler = () => {
     const formData = new FormData();
+    
     formData.append("image", selectedImage);
     //  formData.append("name",'name');
 
@@ -18,11 +25,15 @@ const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
       .post("/store/products/upload-image/", formData)
       .then((res) => {
         console.log(res.data);
-        setImage_ids([...image_ids, res.data.id]);
-        console.log(image_ids);
-        alert("عکس با موفقیت آپلود شد");
+        setImages([...images, res.data.id]);
+        console.log(images);
+       // alert("عکس با موفقیت آپلود شد");
+       toast.success("عکس با موفقیت آپلود شد")
       })
-      .catch((error) => alert(error.response.data.detail));
+      .catch((error) => 
+        toast.error(error.response.data.detail)
+        //alert(error.response.data.detail)
+    );
 
     //set id respose imag-ids
   };
@@ -61,7 +72,7 @@ const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
             //selectedImage.length > 0 && (
             <div className="flex justify-between items-center gap-2">
               <div className="flex  gap-2">
-                {selectedImage && (
+                {selectedImage ? (
                   <div className="flex flex-col gap-2">
                     <Image
                       src={URL.createObjectURL(selectedImage)}
@@ -72,7 +83,13 @@ const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
                     />
                     <span>{selectedImage.name}</span>
                   </div>
-                )}
+                ):
+                product.images[0].image &&
+                  <div>
+                    <img src={product.images[0].image} className="w-[70px] h-[70px]" />
+                  </div>
+              }
+                
               </div>
               {selectedImage && (
                 <div className="w-[70px]">

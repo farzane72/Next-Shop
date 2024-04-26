@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -8,58 +8,80 @@ import { useAppSelector } from "@/redux/store";
 import { useAppDispatch } from "@/redux/store";
 import Button from "../modules/Button";
 import Input from "../modules/Input";
-import { ProductType, InitialProductType } from "../types/PanelFormTypes";
-import { fetchAddProduct } from "@/redux/features/panel/productsSlice";
+import { ProductType, InitialEditProductType,ProductEditType } from "../types/PanelFormTypes";
+import { fetchAddProduct,fetchUpdateProduct } from "@/redux/features/panel/productsSlice";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import Textarea from "../modules/Textarea";
 import Specifications from "../modules/Specifications";
 import ImageProduct from "../modules/ImageProduct";
-import SelectAdd from "../modules/SelectAdd";
+import Select from "../modules/Select";
 
 //const phoneRegExp =/^(\+98|0)?9\d{9}$/
 
 //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-const FormikContainerProduct: React.FunctionComponent<ProductType> = (
-  props: ProductType
+const FormikContainerEditProduct: React.FunctionComponent<ProductEditType> = (
+  props
 ) => {
   //const [formValues, setformValues] = useState(null);
   const {
+    id,
     title,
-    category,
+    category:category,
     price,
     inventory,
     description,
     specifications,
     image_ids,
+    newSpecifications,
+    setNewSpecifications,
+    
   } = props;
+  
+console.log(specifications);
+console.log(image_ids);
 
   const { addOrEdit, categories,loading } = useAppSelector((store) => store.products);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
   //console.log(pathname);
-  //console.log(props);
+  // //console.log(props);
+  // const test=Object.entries(specifications).map(([key, value]) => {
+     
+  //   return( { [`${key}`]:value})
+  //   })  
+  //   console.log(test);
 
+ // const [valueSpecifications, setValueSpecifications] =useState<any>({...specifications});
+  // useEffect(()=>{
+  //   setValueSpecifications({...specifications})
 
-  const [newSpecifications, setNewSpecifications] =useState<any>([]);
-
-
-
-  const [images, setImages] = useState(image_ids);
+  // },[])
+ 
+  const [images, setImages] = useState<any>([]);
+  //const [categoryId, setCategoryId] = useState<number>(category.id);
   //console.log(categories);
-  //console.log(specifications);
-  
+  //console.log(valueSpecifications);
+  console.log(category);
+    // console.log(categoryId);
+  //console.log(images);
   //----------------------------------------------function formik------------------------------------------------------------------------------
-  const initialValues: InitialProductType = {
+  //const initialValues:InitialEditProductType = {
+    const initialValues:InitialEditProductType = {
+    id,
     title,
-    category,
+    category:category.title,
     price,
     inventory,
     description,
     specifications,
     image_ids,
+    newSpecifications,
+    setNewSpecifications,
   };
+
+  
 
   const validationSchema = Yup.object({
     //phoneNumber: Yup.string().matches()
@@ -69,50 +91,41 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
     inventory: Yup.string().required("وارد کردن تعداد ضروری است"),
   });
   const onSubmit = (
-    values: ProductType,
-    { resetForm, setSubmitting }: FormikHelpers<ProductType>,
+    values: ProductEditType,
+    { resetForm, setSubmitting }: FormikHelpers<ProductEditType>,
    
   ) => {
     
-    // const test=Object.entries(newSpecifications).map(([key, value]) => {
-     
-    //   return( { [`${key}`]:value})
-    //   })  
-    // console.log(values);
-     console.log("test");
-     console.log(newSpecifications);
+     console.log(category);
+     //console.log(categoryId);
+    // console.log(valueSpecifications);
     const data = {
       title: values.title,
-      category: values.category,
+      category: categories.results.find(
+        (item) => item.title === values.category)?.id,
       price: values.price,
       inventory: values.inventory,
       description: values.description,
-      specifications:  newSpecifications.reduce((accumulator:any,currentObject:any)=>{return{...accumulator,...currentObject}},{}),
-      image_ids: [...images],
+      specifications: newSpecifications.reduce((accumulator:any,currentObject:any)=>{return{...accumulator,...currentObject}},{}),
+      image_ids:images.length>0? [...images]:[image_ids[0].id],
     };
     console.log(data);
-   //if (addOrEdit === "add") {
-      dispatch(fetchAddProduct(data)).then((res) => {
-        console.log(res);
-        //modal add user
-        if (res.meta.requestStatus === "fulfilled") {
-          toast.success("محصول جدید با موفقیت اضافه شد");
-          // router.push("/account/loginWithPhone");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          toast.error("وجود خطا در ثبت محصول جدید");
-          // router.push("/account/loginWithPhone");
-        }
-      });
-      // const myPromise = fetchData();
-      // toast.promise(myPromise, {
-      //   loading: 'Loading',
-      //   success: 'Got the data',
-      //   error: 'Error when fetching',
-      // });
-  // }
+  
 
    
+    dispatch(fetchUpdateProduct({data,id})).then((res) => {
+      console.log(res);
+      //modal add user
+      if (res.meta.requestStatus === "fulfilled") {
+        toast.success("محصول  با موفقیت ویرایش شد");
+         router.push("/panel-admin/products");
+      }
+      if (res.meta.requestStatus === "rejected") {
+        toast.error("وجود خطا درویرایش محصول");
+        // router.push("/account/loginWithPhone");
+      }
+    });
+    
 
     resetForm();
     setSubmitting(false);
@@ -135,16 +148,17 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
                 <Input label="قیمت محصول" name="price" type="text" />
                 <Input label="تعداد " name="inventory" type="text" />
                 <Textarea label="توضیحات " name="description" />
-                <SelectAdd name="category" label="دسته بندی" />
+                <Select name="category" label="دسته بندی"  />
                 <Specifications
                   newSpecifications={newSpecifications}
-                setNewSpecifications={setNewSpecifications}
+                  setNewSpecifications={setNewSpecifications}
+                  //setSpecifications={initialValues.specifications}
                 />
 
                 <ImageProduct images={images} setImages={setImages}  />
 
                 <Button
-                  text="ثبت"
+                  text="ویرایش"
                   disabledItem={!formik.isValid || formik.isSubmitting}
                   loading={loading}
                 />
@@ -157,4 +171,4 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
   );
 };
 
-export default FormikContainerProduct;
+export default FormikContainerEditProduct;

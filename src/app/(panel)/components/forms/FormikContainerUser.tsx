@@ -21,7 +21,7 @@ const FormikContainerUser: React.FunctionComponent<UserType> = (
 ) => {
   //const [formValues, setformValues] = useState(null);
   const{phone,email,id}=props
-  const { addOrEdit } = useAppSelector((store) => store.panel);
+  const { addOrEdit ,loading} = useAppSelector((store) => store.panel);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname()
@@ -120,6 +120,7 @@ const FormikContainerUser: React.FunctionComponent<UserType> = (
                 <Button
                   text="ثبت"
                   disabledItem={!formik.isValid || formik.isSubmitting}
+                  loading={loading}
                 />
               </div>
             </div>

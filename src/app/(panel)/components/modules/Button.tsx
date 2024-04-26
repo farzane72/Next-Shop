@@ -4,11 +4,11 @@ import { useAppSelector } from "@/redux/store";
 interface BuutonProps {
     text:string,
     disabledItem:any
-    
+    loading:Boolean
 }
  
-const Button: React.FunctionComponent<BuutonProps> = ({text,disabledItem}) => {
-    const {  loading } = useAppSelector((store) => store.login);
+const Button: React.FunctionComponent<BuutonProps> = ({text,disabledItem,loading}) => {
+    //const {  loading } = useAppSelector((store) => store.panel);
     return (  
         <>
          {loading ? (

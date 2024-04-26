@@ -2,15 +2,14 @@ import { Field, ErrorMessage } from "formik";
 import { useAppDispatch } from "@/redux/store";
 import { useAppSelector } from "@/redux/store";
 import TextError from "./TextError";
-interface SelectEditProps {
+interface InputProps {
   label: string;
   placeHolder?: string;
-  name: string,
-  
+  name: string;
  // value:string
 }
 
-const Select: React.FunctionComponent<SelectEditProps> = ({ name,placeHolder,label}) => {
+const SelectAdd: React.FunctionComponent<InputProps> = ({ name,placeHolder,label }) => {
   const { addOrEdit, categories } = useAppSelector((store) => store.products);
  // console.log(categories);
   return (
@@ -21,16 +20,15 @@ const Select: React.FunctionComponent<SelectEditProps> = ({ name,placeHolder,lab
           placeholder="Select"
           name={name}
           as="select"
-          
-         // onClick={(e:any)=>console.log(e.target.id)}
+         // value={value}
           className=" w-full border border-gray-500 p-2 rounded-md outline-none mb-2 placeholder-opacity-0 focus-within:border-[#b0882c] mt-4"
         >
 
-        {/* <option className="text-gray-600" value="0">
-         {value}
-        </option> */}
+        <option className="text-gray-600" value="0">
+         لطفا یک دسته بندی انتخاب کنید
+        </option>
         {categories.results.map((item) => (
-          <option value={item.title} key={item.id}   >
+          <option value={item.id} key={item.id}>
             {item.title}
           </option>
         ))}
@@ -44,4 +42,4 @@ const Select: React.FunctionComponent<SelectEditProps> = ({ name,placeHolder,lab
   );
 };
 
-export default Select;
+export default SelectAdd;

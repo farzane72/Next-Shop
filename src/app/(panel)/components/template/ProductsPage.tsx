@@ -1,7 +1,6 @@
 "use client"
-import Pagination from "../modules/Pagination";
-import { CiEdit } from "react-icons/ci";
 
+import { CiEdit } from "react-icons/ci";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { CiCircleCheck } from "react-icons/ci";
 import { CiCircleRemove } from "react-icons/ci";
@@ -12,6 +11,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ToastWithButton from "../modules/ToastWithButton";
 import Image from "next/image";
+import PaginationReact from "../modules/Pagination-React-Paginate";
+
 //import { productsSelected } from "@/redux/features/panel/productsSlice";
 interface ProductsPageProps {}
 
@@ -31,7 +32,7 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
      router.push(`/panel-admin/products/edit-product/${id}`);
   };
   const detailHandler = (id: number) => {
-   // router.push(`/panel-admin/users/details/${id}`);
+    router.push(`/panel-admin/products/detail-product/${id}`);
   };
  // console.log(users.results);
   return (
@@ -102,7 +103,7 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
         </table>
       </div>
 
-      <Pagination />
+      <PaginationReact />
     </div>
   );
 };
