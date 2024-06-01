@@ -5,20 +5,31 @@ import { useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { fetchProducts } from "@/redux/features/panel/productsSlice";
 import { LineWave } from "react-loader-spinner";
+import { useGetProducts } from "./_api/products";
+import { setProducts } from "@/redux/features/panel/productsSlice";
 interface ProductsProps {}
 
 const Products: React.FunctionComponent<ProductsProps> = () => {
-  const { itemOffset, loading } = useAppSelector((store) => store.products);
-  console.log(itemOffset);
-
+  const { itemOffset } = useAppSelector((store) => store.products);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    //dispatch(fetchProducts((currentPage-1)*10))
-    dispatch(fetchProducts(itemOffset));
-  }, [itemOffset]);
+  const {data,isPending,isSuccess}=useGetProducts( itemOffset)
+ // console.log(itemOffset);
+
+  
+
+ if( isSuccess) {
+
+    dispatch(setProducts(data))
+
+  }
+  // useEffect(() => {
+  //   dispatch(fetchProducts(itemOffset));
+  // }, [itemOffset]);
+
+
   return (
     <>
-      {loading ? (
+      {isPending ? (
         <LineWave
           visible={true}
           height="100"

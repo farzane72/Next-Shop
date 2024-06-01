@@ -54,6 +54,7 @@ const PaginationReact: React.FunctionComponent<PaginationReactProps> = () => {
         nextLinkClassName='page-num'
         activeLinkClassName='active'
        
+        
       />
     </div>
   );

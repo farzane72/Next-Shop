@@ -5,7 +5,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { CiCircleCheck } from "react-icons/ci";
 import { CiCircleRemove } from "react-icons/ci";
 import { useAppSelector } from "@/redux/store";
-import { setAddOrEdit } from "@/redux/features/panel/panelSlice";
+//import { setAddOrEdit } from "@/redux/features/panel/panelSlice";
 import { useAppDispatch } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,12 +23,12 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
 
   //-----------------------------------------------------------------------------------------------------------------------------
   const addHandler = () => {
-     dispatch(setAddOrEdit("add"));
+    // dispatch(setAddOrEdit("add"));
     router.push("/panel-admin/products/add-product");
   };
 
   const editHandler = (id: number) => {
-     dispatch(setAddOrEdit("edit"));
+    // dispatch(setAddOrEdit("edit"));
      router.push(`/panel-admin/products/edit-product/${id}`);
   };
   const detailHandler = (id: number) => {
@@ -38,7 +38,7 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
   return (
     <div className="p-4    ">
       <div
-        className="py-2 px-4 bg-[#1d3855] rounded-md text-white self-start  my-8 inline-block "
+        className="py-2 px-4 bg-[#1d3855] rounded-md text-white self-start  my-8 inline-block cursor-pointer "
         onClick={addHandler}
       >
         افزودن محصول  جدید

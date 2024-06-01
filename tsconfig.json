@@ -31,6 +31,10 @@
       "@/services/*": ["src/core/services/*"],
       "@/tailwind/*": ["src/tailwind/*"],
       "@/redux/*": ["src/redux/*"],
+      "@/types/*": ["src/types/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/panel-admin/*": ["src/app/(panel)/panel-admin/*"],
+     // "@/core/*": ["src/core/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/redux/Providers.tsx", "src/redux/store.ts", "src/redux/features/account/loginSlice.ts", "src/app/(panel)/panel-admin/users/error.tsx"],

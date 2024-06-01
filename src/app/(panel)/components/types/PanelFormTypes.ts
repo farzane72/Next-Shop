@@ -118,7 +118,8 @@ export interface UploderType {
 export interface ImageProductProps {
   images: number[]
   // |ImageType[];
-  setImages: any;
+  setImages: any,
+  image_ids:ImageType[]
 }
 // export interface DetailProductType {
 //   id: number;

@@ -2,6 +2,7 @@ import { Field, ErrorMessage } from "formik";
 import { useAppDispatch } from "@/redux/store";
 import { useAppSelector } from "@/redux/store";
 import TextError from "./TextError";
+import { useGetCategories } from "../../panel-admin/products/_api/products";
 interface SelectEditProps {
   label: string;
   placeHolder?: string;
@@ -11,7 +12,10 @@ interface SelectEditProps {
 }
 
 const Select: React.FunctionComponent<SelectEditProps> = ({ name,placeHolder,label}) => {
-  const { addOrEdit, categories } = useAppSelector((store) => store.products);
+
+
+  const { data:categoriesData, isPending:categoriesPending,isSuccess:categoriesSuccess } = useGetCategories(1);
+  //const { addOrEdit, categories } = useAppSelector((store) => store.products);
  // console.log(categories);
   return (
     <div className=" flex items-center align-middle gap-1 w-[700px]  ">
@@ -29,7 +33,7 @@ const Select: React.FunctionComponent<SelectEditProps> = ({ name,placeHolder,lab
         {/* <option className="text-gray-600" value="0">
          {value}
         </option> */}
-        {categories.results.map((item) => (
+        {categoriesData?.results.map((item:any) => (
           <option value={item.title} key={item.id}   >
             {item.title}
           </option>

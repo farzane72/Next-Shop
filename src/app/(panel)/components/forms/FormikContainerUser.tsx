@@ -13,15 +13,19 @@ import { fetchAddUser } from "@/redux/features/panel/panelSlice";
 import { fetchUpdateUser } from "@/redux/features/panel/panelSlice";
 import { usePathname } from 'next/navigation'
 import toast from "react-hot-toast";
+import { useAddUser,useEditUser } from "../../panel-admin/users/_api/users";
+import { AddUserType ,EditUserType} from "src/types/UsersType";
 //const phoneRegExp =/^(\+98|0)?9\d{9}$/
 
 //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-const FormikContainerUser: React.FunctionComponent<UserType> = (
-  props: UserType
+const FormikContainerUser: React.FunctionComponent<EditUserType> = (
+  props: EditUserType
 ) => {
   //const [formValues, setformValues] = useState(null);
   const{phone,email,id}=props
-  const { addOrEdit ,loading} = useAppSelector((store) => store.panel);
+  const { addOrEdit } = useAppSelector((store) => store.panel);
+  const {mutate:AddUser,mutateAsync:AddUserAsync,isPending:isPendingAdd}=useAddUser()
+  const {mutate:EditUser,mutateAsync:EditUserAsync,isPending:isPendingEdit}=useEditUser()
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname()
@@ -44,25 +48,27 @@ const FormikContainerUser: React.FunctionComponent<UserType> = (
     email: Yup.string().required("وارد کردن ایمیل ضروری است "),
   });
   const onSubmit = (
-    values: UserType,
-    { resetForm, setSubmitting }: FormikHelpers<UserType>
+    values: AddUserType,
+    { resetForm, setSubmitting }: FormikHelpers<EditUserType>
   ) => {
     console.log(values);
     if (addOrEdit === "add") {
-      dispatch(fetchAddUser({ phone: values.phone, email: values.email })).then(
-        (res) => {
-          console.log(res);
-          //modal add user
-          if (res.meta.requestStatus === "fulfilled") {
-            toast.success("کاربر جدید با موفقیت اضافه شد");
-            // router.push("/account/loginWithPhone");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            toast.error("وجود خطا در ثبت کاربر جدید");
-            // router.push("/account/loginWithPhone");
-          }
-        }
-      );
+      AddUser({ phone: values.phone, email: values.email })
+
+     // dispatch(fetchAddUser({ phone: values.phone, email: values.email })).then(
+        // (res) => {
+        //   console.log(res);
+        //   //modal add user
+        //   if (res.meta.requestStatus === "fulfilled") {
+        //     toast.success("کاربر جدید با موفقیت اضافه شد");
+        //     // router.push("/account/loginWithPhone");
+        //   }
+        //   if (res.meta.requestStatus === "rejected") {
+        //     toast.error("وجود خطا در ثبت کاربر جدید");
+        //     // router.push("/account/loginWithPhone");
+        //   }
+        // }
+     // );
       // const myPromise = fetchData();
       // toast.promise(myPromise, {
       //   loading: 'Loading',
@@ -72,20 +78,32 @@ const FormikContainerUser: React.FunctionComponent<UserType> = (
     }
 
     if (addOrEdit === "edit") {
-      dispatch(fetchUpdateUser({ email: values.email,id:id })).then(
-        (res) => {
-          console.log(res);
-          //modal add user
-          if (res.meta.requestStatus === "fulfilled") {
-            toast.success("کاربر با موفقیت ویرایش شد");
-             router.push("/panel-admin/users");
-          }
-          if (res.meta.requestStatus === "rejected") {
-            toast.error("وجود خطا در ویرایش کاربر ");
-            // router.push("/account/loginWithPhone");
-          }
-        }
-      );
+
+     // EditUser({phone: values.phone, email: values.email ,id:id})
+      EditUserAsync({phone: values.phone, email: values.email ,id:id}).then(()=>(
+        toast.success("کاربر با موفقیت ویرایش شد"),
+        router.push("/panel-admin/users"))
+    )
+      // isSuccess && (
+      //   toast.success("کاربر با موفقیت ویرایش شد"),
+        
+      //   router.push("/panel-admin/users")
+      // )
+       
+      // dispatch(fetchUpdateUser({ email: values.email,id:id })).then(
+      //   (res) => {
+      //     console.log(res);
+      //     //modal add user
+      //     if (res.meta.requestStatus === "fulfilled") {
+      //       toast.success("کاربر با موفقیت ویرایش شد");
+      //        router.push("/panel-admin/users");
+      //     }
+      //     if (res.meta.requestStatus === "rejected") {
+      //       toast.error("وجود خطا در ویرایش کاربر ");
+      //       // router.push("/account/loginWithPhone");
+      //     }
+      //   }
+      // );
      
     }
 
@@ -118,9 +136,9 @@ const FormikContainerUser: React.FunctionComponent<UserType> = (
                 />
 
                 <Button
-                  text="ثبت"
+                  text={`${addOrEdit === "edit"?"ویرایش":"ثبت"}`}
                   disabledItem={!formik.isValid || formik.isSubmitting}
-                  loading={loading}
+                  loading={addOrEdit === "edit"?isPendingEdit:isPendingAdd}
                 />
               </div>
             </div>

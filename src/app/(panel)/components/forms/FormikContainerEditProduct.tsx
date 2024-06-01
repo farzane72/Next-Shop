@@ -9,13 +9,14 @@ import { useAppDispatch } from "@/redux/store";
 import Button from "../modules/Button";
 import Input from "../modules/Input";
 import { ProductType, InitialEditProductType,ProductEditType } from "../types/PanelFormTypes";
-import { fetchAddProduct,fetchUpdateProduct } from "@/redux/features/panel/productsSlice";
+import { fetchAddProduct } from "@/redux/features/panel/productsSlice";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import Textarea from "../modules/Textarea";
 import Specifications from "../modules/Specifications";
 import ImageProduct from "../modules/ImageProduct";
 import Select from "../modules/Select";
+import { useEditProduct,useGetCategories } from "../../panel-admin/products/_api/products";
 
 //const phoneRegExp =/^(\+98|0)?9\d{9}$/
 
@@ -39,9 +40,12 @@ const FormikContainerEditProduct: React.FunctionComponent<ProductEditType> = (
   } = props;
   
 console.log(specifications);
+console.log(newSpecifications);
 console.log(image_ids);
 
-  const { addOrEdit, categories,loading } = useAppSelector((store) => store.products);
+ // const {  categories,loading } = useAppSelector((store) => store.products);
+  const{mutate ,mutateAsync,isPending}=useEditProduct()
+  const {data:categories}=useGetCategories(1)
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -100,9 +104,10 @@ console.log(image_ids);
      //console.log(categoryId);
     // console.log(valueSpecifications);
     const data = {
+      id,
       title: values.title,
       category: categories.results.find(
-        (item) => item.title === values.category)?.id,
+        (item:any) => item.title === values.category)?.id,
       price: values.price,
       inventory: values.inventory,
       description: values.description,
@@ -111,20 +116,25 @@ console.log(image_ids);
     };
     console.log(data);
   
+    mutateAsync(data).then(()=>{
 
+      toast.success("محصول  با موفقیت ویرایش شد");
+       router.push("/panel-admin/products");
+
+    })
    
-    dispatch(fetchUpdateProduct({data,id})).then((res) => {
-      console.log(res);
-      //modal add user
-      if (res.meta.requestStatus === "fulfilled") {
-        toast.success("محصول  با موفقیت ویرایش شد");
-         router.push("/panel-admin/products");
-      }
-      if (res.meta.requestStatus === "rejected") {
-        toast.error("وجود خطا درویرایش محصول");
-        // router.push("/account/loginWithPhone");
-      }
-    });
+    // dispatch(fetchUpdateProduct({data,id})).then((res) => {
+    //   console.log(res);
+    //   //modal add user
+    //   if (res.meta.requestStatus === "fulfilled") {
+    //     toast.success("محصول  با موفقیت ویرایش شد");
+    //      router.push("/panel-admin/products");
+    //   }
+    //   if (res.meta.requestStatus === "rejected") {
+    //     toast.error("وجود خطا درویرایش محصول");
+    //     // router.push("/account/loginWithPhone");
+    //   }
+    // });
     
 
     resetForm();
@@ -155,12 +165,12 @@ console.log(image_ids);
                   //setSpecifications={initialValues.specifications}
                 />
 
-                <ImageProduct images={images} setImages={setImages}  />
+                <ImageProduct images={images} setImages={setImages} image_ids={image_ids} />
 
                 <Button
                   text="ویرایش"
                   disabledItem={!formik.isValid || formik.isSubmitting}
-                  loading={loading}
+                  loading={isPending}
                 />
               </div>
             </div>

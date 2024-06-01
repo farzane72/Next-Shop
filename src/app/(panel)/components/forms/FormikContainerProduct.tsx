@@ -16,6 +16,7 @@ import Textarea from "../modules/Textarea";
 import Specifications from "../modules/Specifications";
 import ImageProduct from "../modules/ImageProduct";
 import SelectAdd from "../modules/SelectAdd";
+import { useAddProduct } from "../../panel-admin/products/_api/products";
 
 //const phoneRegExp =/^(\+98|0)?9\d{9}$/
 
@@ -34,13 +35,13 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
     image_ids,
   } = props;
 
-  const { addOrEdit, categories,loading } = useAppSelector((store) => store.products);
+  const {  categories,loading } = useAppSelector((store) => store.products);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
   //console.log(pathname);
   //console.log(props);
-
+  const {mutate,mutateAsync,isPending}=useAddProduct()
 
   const [newSpecifications, setNewSpecifications] =useState<any>([]);
 
@@ -92,18 +93,27 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
     };
     console.log(data);
    //if (addOrEdit === "add") {
-      dispatch(fetchAddProduct(data)).then((res) => {
-        console.log(res);
-        //modal add user
-        if (res.meta.requestStatus === "fulfilled") {
-          toast.success("محصول جدید با موفقیت اضافه شد");
-          // router.push("/account/loginWithPhone");
-        }
-        if (res.meta.requestStatus === "rejected") {
-          toast.error("وجود خطا در ثبت محصول جدید");
-          // router.push("/account/loginWithPhone");
-        }
-      });
+      // dispatch(fetchAddProduct(data)).then((res) => {
+      //   console.log(res);
+      //   //modal add user
+      //   if (res.meta.requestStatus === "fulfilled") {
+      //     toast.success("محصول جدید با موفقیت اضافه شد");
+      //     // router.push("/account/loginWithPhone");
+      //   }
+      //   if (res.meta.requestStatus === "rejected") {
+      //     toast.error("وجود خطا در ثبت محصول جدید");
+      //     // router.push("/account/loginWithPhone");
+      //   }
+      // });
+
+
+        mutate(data)
+
+
+
+
+
+
       // const myPromise = fetchData();
       // toast.promise(myPromise, {
       //   loading: 'Loading',
@@ -141,12 +151,12 @@ const FormikContainerProduct: React.FunctionComponent<ProductType> = (
                 setNewSpecifications={setNewSpecifications}
                 />
 
-                <ImageProduct images={images} setImages={setImages}  />
+                <ImageProduct images={images} setImages={setImages} image_ids={[]}  />
 
                 <Button
                   text="ثبت"
                   disabledItem={!formik.isValid || formik.isSubmitting}
-                  loading={loading}
+                  loading={isPending}
                 />
               </div>
             </div>

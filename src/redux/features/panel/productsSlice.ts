@@ -4,8 +4,11 @@ import {
   ProductsSliceType,
   AddProductType,
   DetailProductType,
-  UpdateType
-} from "./ProductsSliceType";
+  UpdateType,
+  ProductsType,
+  CategoriesType
+} from "@/types/ProductsType";
+
 import { publicAxios } from "@/services/publicAxios";
 import { privateAxios } from "@/services/privateAxios";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -110,14 +113,14 @@ export const fetchGetProduct = createAsyncThunk(
     return res.data;
   }
 );
-export const fetchUpdateProduct = createAsyncThunk(
-  "products/fetchUpdateProduct",
-  async ({data,id}:UpdateType, thunkAPI) => {
-    const res = await privateAxios.put(`/store/products/${id}/`,data);
-    console.log(res.data);
-    return res.data;
-  }
-);
+// export const fetchUpdateProduct = createAsyncThunk(
+//   "products/fetchUpdateProduct",
+//   async ({data,id}:UpdateType, thunkAPI) => {
+//     const res = await privateAxios.put(`/store/products/${id}/`,data);
+//     console.log(res.data);
+//     return res.data;
+//   }
+// );
 export const fetchDeleteProduct = createAsyncThunk(
   "products/fetchDeleteProduct",
   async (id: number, thunkAPI) => {
@@ -136,9 +139,24 @@ export const ProductsSlice = createSlice({
       state.itemOffset = action.payload;
     },
 
-    setAddOrEdit(state, action: PayloadAction<string>) {
-      state.addOrEdit = action.payload;
+    //setAddOrEdit(state, action: PayloadAction<string>) {
+    //  state.addOrEdit = action.payload;
+    // },
+    
+    setProducts(state, action: PayloadAction<ProductsType>){
+      state.products=action.payload;
     },
+
+    setProductDetail(state, action: PayloadAction<DetailProductType>){
+      state.product=action.payload;
+    },
+
+    setCategories(state, action: PayloadAction< CategoriesType>){
+      state.categories=action.payload;
+    },
+
+
+
   },
   extraReducers: (builder) =>
     builder
@@ -202,21 +220,22 @@ export const ProductsSlice = createSlice({
       })
 
   //----------------------------------------------------------------------------------------------------------------------
-  .addCase(fetchUpdateProduct.pending, (state, action) => {
-    state.loading = true;
-  })
-  .addCase(fetchUpdateProduct.fulfilled, (state, action) => {
+//   .addCase(fetchUpdateProduct.pending, (state, action) => {
+//     state.loading = true;
+//   })
+//   .addCase(fetchUpdateProduct.fulfilled, (state, action) => {
     
 
-    state.loading = false;
-  })
-  .addCase(fetchUpdateProduct.rejected, (state, action) => {
-    state.error = action.payload;
-  })
-});
+//     state.loading = false;
+//   })
+//   .addCase(fetchUpdateProduct.rejected, (state, action) => {
+//     state.error = action.payload;
+//   })
+ });
 //------------------------------------------------------------------------------------------------------------
 
 export default ProductsSlice.reducer;
-export const { setAddOrEdit,setPage } = ProductsSlice.actions;
+export const { setPage,setProducts,setProductDetail,setCategories } = ProductsSlice.actions;
 
 //export const productsSelected=(store:ProductsSliceType) => store.products
+//setAddOrEdit,

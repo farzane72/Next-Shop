@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/store";
+import Image from "next/image";
 interface DetailProducrProps {}
 
 const DetailProducPage: React.FunctionComponent<DetailProducrProps> = () => {
@@ -27,7 +28,14 @@ const DetailProducPage: React.FunctionComponent<DetailProducrProps> = () => {
       <div className="flex gap-1 border-b pb-2 items-center">
           <span className="">تصویر محصول:</span>
           <div className="text-gray-600">
-            <img className="w-[150px] h-[120px]" src={images[0].image}/>
+            {
+              images[0]?.image ?
+              <img className="w-[150px] h-[120px]" src={images[0].image}/>:
+              <Image src="/images/no-images2.jpg" alt="no-picture" width={40} height={40} className="rounded-md" />
+
+            }
+           
+           
           </div>
         </div>
         {/* <div className="flex   border-b  "> */}

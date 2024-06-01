@@ -4,7 +4,8 @@ import { publicAxios } from "@/services/publicAxios";
 import { privateAxios } from "@/services/privateAxios";
 import SetCookie from "@/hooks/setCookie";
 import { SetLoacalStorage } from "@/hooks/localStorage";
-import { PanelType, AddUserType,EditUserType } from "./PanelSliceType";
+//import { PanelType, AddUserType,EditUserType,userType } from "./PanelSliceType";
+import { PanelType ,AddUserType,EditUserType,userType} from "@/types/UsersType";
 
 const initialState: PanelType = {
   users: {
@@ -89,6 +90,9 @@ export const PanelSlice = createSlice({
     setAddOrEdit(state, action: PayloadAction<string>) {
       state.addOrEdit = action.payload;
     },
+    setUser(state,action:PayloadAction<userType>){
+      state.user=action.payload
+    }
   },
   extraReducers: (builder) =>
     builder
@@ -142,4 +146,4 @@ export const PanelSlice = createSlice({
 //------------------------------------------------------------------------------------------------------------
 
 export default PanelSlice.reducer;
-export const { setPage, setAddOrEdit } = PanelSlice.actions;
+export const { setPage, setAddOrEdit,setUser } = PanelSlice.actions;

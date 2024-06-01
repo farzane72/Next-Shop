@@ -8,7 +8,7 @@ import { Field } from "formik";
 import toast from "react-hot-toast";
 
 const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
-  const { images, setImages } = props;
+  const { images, setImages,image_ids } = props;
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const { product } = useAppSelector((store) => store.products);
 
@@ -84,9 +84,9 @@ const ImageProduct: React.FunctionComponent<ImageProductProps> = (props) => {
                     <span>{selectedImage.name}</span>
                   </div>
                 ):
-                product.images[0].image &&
+                image_ids[0]?.image &&
                   <div>
-                    <img src={product.images[0].image} className="w-[70px] h-[70px]" />
+                    <img src={image_ids[0]?.image} className="w-[70px] h-[70px]" />
                   </div>
               }
                 

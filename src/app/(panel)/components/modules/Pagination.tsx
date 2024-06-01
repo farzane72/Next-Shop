@@ -1,25 +1,30 @@
 import { useAppSelector } from "@/redux/store";
 import { useAppDispatch } from "@/redux/store";
 import { setPage } from "@/redux/features/panel/panelSlice";
+import { useGetUsers } from "../../panel-admin/users/_api/users";
+import { usersType } from "src/types/UsersType";
 interface PaginationProps {}
 
-const Pagination: React.FunctionComponent<PaginationProps> = () => {
-  const { currentPage, users } = useAppSelector((store) => store.panel);
+const Pagination: React.FunctionComponent<usersType> = (props) => {
+  const {count_items_current_page,results,count_pages}=props
 
+  
+  const { currentPage} = useAppSelector((store) => store.panel);
+  //const {data,isPending}=useGetUsers()
   const dispatch = useAppDispatch();
-  console.log(users);
+ // console.log(users);
   console.log(currentPage);
   //-------------------------------------------------------------------------------------------------------------------
   //const recordsPerPage=10;
-  const lastIndex = currentPage * users.count_items_current_page;
-  const firstIndex = lastIndex - users.count_items_current_page;
+  const lastIndex = currentPage * count_items_current_page;
+  const firstIndex = lastIndex - count_items_current_page;
   //const npage=Math.ceil(+(users.total_items)/users.count_items_current_page);
   // console.log(npage);
   //const numbers:any=[Array.from((npage+1).keys())].slice(1)
 
   // console.log(numbers);
   let numbers = Array.from(
-    { length: users.count_pages },
+    { length: count_pages },
     (value, index) => index + 1
   );
   //console.log(users.length);
