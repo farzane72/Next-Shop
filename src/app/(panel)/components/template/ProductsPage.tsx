@@ -12,16 +12,27 @@ import { useRouter } from "next/navigation";
 import ToastWithButton from "../modules/ToastWithButton";
 import Image from "next/image";
 import PaginationReact from "../modules/Pagination-React-Paginate";
+import { LineWave } from "react-loader-spinner";
+import { useGetProducts } from "../../panel-admin/products/_api/products";
+
 
 //import { productsSelected } from "@/redux/features/panel/productsSlice";
 interface ProductsPageProps {}
 
 const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
-  const { products } =useAppSelector((store) => store.products)
-  const dispatch = useAppDispatch();
+
+
+  const { itemOffset } = useAppSelector((store) => store.products);
+  //const dispatch = useAppDispatch();
+  const {data,isPending,isSuccess}=useGetProducts( itemOffset)
+
+
+
+ // const { products } =useAppSelector((store) => store.products)
+  
   const router = useRouter();
 
-  //-----------------------------------------------------------------------------------------------------------------------------
+  //---------------------------------------------Function--------------------------------------------------------------------------------
   const addHandler = () => {
     // dispatch(setAddOrEdit("add"));
     router.push("/panel-admin/products/add-product");
@@ -35,6 +46,26 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
     router.push(`/panel-admin/products/detail-product/${id}`);
   };
  // console.log(users.results);
+
+ //----------------------------------------------------------------------------------------------------------------------------------
+
+ if(isPending) {
+  <LineWave
+    visible={true}
+    height="100"
+    width="100"
+    color="#1d3855"
+    ariaLabel="line-wave-loading"
+    wrapperStyle={{}}
+    wrapperClass=""
+    firstLineColor=""
+    middleLineColor=""
+    lastLineColor=""
+  />
+
+ }
+  
+ if(isSuccess){
   return (
     <div className="p-4    ">
       <div
@@ -63,7 +94,7 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
           </thead>
           <tbody className="text-gray-500 [&>*:nth-child(even)]:bg-[#f9fafc] ">
             {
-            products.results.map((product) => (
+            data.results.map((product:any) => (
               <tr className="bg-white border " key={product.id}>
                
                 <td className="  p-2 ">{product.thumbnail?
@@ -103,9 +134,12 @@ const ProductsPage: React.FunctionComponent<ProductsPageProps> = () => {
         </table>
       </div>
 
-      <PaginationReact />
+      <PaginationReact  products={data}/>
     </div>
   );
+
+ }
+  
 };
 
 export default ProductsPage;

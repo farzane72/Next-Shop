@@ -20,6 +20,7 @@ import { useEditProduct,useGetCategories } from "../../panel-admin/products/_api
 
 //const phoneRegExp =/^(\+98|0)?9\d{9}$/
 
+
 //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const FormikContainerEditProduct: React.FunctionComponent<ProductEditType> = (
   props

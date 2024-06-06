@@ -10,18 +10,18 @@ import { setProducts } from "@/redux/features/panel/productsSlice";
 interface ProductsProps {}
 
 const Products: React.FunctionComponent<ProductsProps> = () => {
-  const { itemOffset } = useAppSelector((store) => store.products);
-  const dispatch = useAppDispatch();
-  const {data,isPending,isSuccess}=useGetProducts( itemOffset)
- // console.log(itemOffset);
+//   const { itemOffset } = useAppSelector((store) => store.products);
+//   const dispatch = useAppDispatch();
+//   const {data,isPending,isSuccess}=useGetProducts( itemOffset)
+//  // console.log(itemOffset);
 
   
 
- if( isSuccess) {
+//  if( isSuccess) {
 
-    dispatch(setProducts(data))
+//     dispatch(setProducts(data))
 
-  }
+//   }
   // useEffect(() => {
   //   dispatch(fetchProducts(itemOffset));
   // }, [itemOffset]);
@@ -29,7 +29,7 @@ const Products: React.FunctionComponent<ProductsProps> = () => {
 
   return (
     <>
-      {isPending ? (
+      {/* {isPending ? (
         <LineWave
           visible={true}
           height="100"
@@ -42,9 +42,9 @@ const Products: React.FunctionComponent<ProductsProps> = () => {
           middleLineColor=""
           lastLineColor=""
         />
-      ) : (
+      ) : ( */}
         <ProductsPage />
-      )}
+    {/* //  )} */}
     </>
   );
 };

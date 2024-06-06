@@ -8,11 +8,11 @@ interface AddProductProps {
 }
  
 const AddProduct:React.FunctionComponent<AddProductProps> = () => {
-    const dispatch=useAppDispatch()
+    // const dispatch=useAppDispatch()
 
-    useEffect(()=>{
-        dispatch(fetchCategories(1))
-    },[])
+    // useEffect(()=>{
+    //     dispatch(fetchCategories(1))
+    // },[])
     return (  
         <AddProductPage />
     );

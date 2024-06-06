@@ -2,6 +2,7 @@ import { Field, ErrorMessage } from "formik";
 import { useAppDispatch } from "@/redux/store";
 import { useAppSelector } from "@/redux/store";
 import TextError from "./TextError";
+import { useGetCategories } from "../../panel-admin/products/_api/products";
 interface InputProps {
   label: string;
   placeHolder?: string;
@@ -10,7 +11,8 @@ interface InputProps {
 }
 
 const SelectAdd: React.FunctionComponent<InputProps> = ({ name,placeHolder,label }) => {
-  const { addOrEdit, categories } = useAppSelector((store) => store.products);
+  const { addOrEdit } = useAppSelector((store) => store.products);
+  const { data, isPending,isSuccess} = useGetCategories(1);
  // console.log(categories);
   return (
     <div className=" flex items-center align-middle gap-1 w-[700px]  ">
@@ -27,7 +29,7 @@ const SelectAdd: React.FunctionComponent<InputProps> = ({ name,placeHolder,label
         <option className="text-gray-600" value="0">
          لطفا یک دسته بندی انتخاب کنید
         </option>
-        {categories.results.map((item) => (
+        {data.results.map((item:any) => (
           <option value={item.id} key={item.id}>
             {item.title}
           </option>

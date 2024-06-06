@@ -3,16 +3,17 @@ import ReactPaginate from 'react-paginate';
 import { useAppDispatch } from '@/redux/store';
 import { useAppSelector } from '@/redux/store';
 import { setPage } from '@/redux/features/panel/productsSlice';
-
+import { ProductsType } from '@/types/ProductsType';
 
 
 interface PaginationReactProps {
-    //itemsPerPage:number  
+    products: ProductsType 
 }
  
-const PaginationReact: React.FunctionComponent<PaginationReactProps> = () => {
+const PaginationReact: React.FunctionComponent<PaginationReactProps> = ({products}) => {
 
-    const { itemOffset,products } = useAppSelector((store) => store.products);
+  
+    const { itemOffset } = useAppSelector((store) => store.products);
     const dispatch=useAppDispatch()
   
   

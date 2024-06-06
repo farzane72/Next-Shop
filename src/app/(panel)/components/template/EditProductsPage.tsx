@@ -31,20 +31,20 @@ const EditProductsPage: React.FunctionComponent<EditProductsProps> = (
     isPending,
     isSuccess,
   } = useProductDetail(productId);
-  if (isSuccess) {
-    console.log(productData);
-  }
+  // if (isSuccess) {
+  //   console.log(productData);
+  // }
 
-  const dispatch = useAppDispatch();
+  //const dispatch = useAppDispatch();
 
   //dispatch(setCategories(categoriesData));
 
   //---------------------------------------------------------------بخش دوم---------------------------------------------------
 
   useEffect(() => {
-    console.log("test");
+   // console.log("test");
   
-
+//---------------------------------------bug dare ????????????------------------
 
     if(isSuccess) {
      console.log(productData.specifications);

@@ -9,14 +9,14 @@ interface DetailsProps {
 }
  
 const Details: React.FunctionComponent<ParamsProps> = ({params}) => {
-    const dispatch=useAppDispatch()
-    useEffect(()=>{
-        dispatch(fetchGetUser(params.userId))
+    // const dispatch=useAppDispatch()
+    // useEffect(()=>{
+    //     dispatch(fetchGetUser(params.userId))
    
-    },[params.userId])
+    // },[params.userId])
     return (
         <div>
-            <DetailUserPage />
+            <DetailUserPage userId={+params.userId} />
         </div>
       );
 }

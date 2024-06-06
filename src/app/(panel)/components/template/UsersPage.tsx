@@ -20,7 +20,7 @@ const UsersPage: React.FunctionComponent<UsersPageProps> = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { data, isPending } = useGetUsers(currentPage);
-  console.log(data);
+  //console.log(data);
   //-----------------------------------------------------------------------------------------------------------------------------
   const addHandler = () => {
     dispatch(setAddOrEdit("add"));

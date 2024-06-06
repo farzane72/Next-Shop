@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 interface SetPasswordProps {
     
 }
+
  
 const SetPassword: React.FunctionComponent<SetPasswordProps> = () => {
     const token=GetCookie("access")

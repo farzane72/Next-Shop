@@ -13,6 +13,7 @@ import { GrFormNextLink } from "react-icons/gr";
 import Button from "../modules/Button";
 import Link from "next/link";
 import Input from "../modules/Input";
+import { usePathname } from "next/navigation";
 
 //"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
 
@@ -30,7 +31,8 @@ const FormikContainerLoginWithPass = () => {
   const [formValues, setformValues] = useState(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
-
+  const pathname = usePathname();
+  console.log(pathname);
 
   const {  currentUrl } = useAppSelector((store) => store.login);
   //----------------------------------------------funcyion formik------------------------------------------------------------------------------
@@ -66,7 +68,13 @@ const FormikContainerLoginWithPass = () => {
         if (currentUrl) {
           router.push(`${currentUrl}`);
         } else {
-          router.push("/profile");
+          if(pathname==="/account/login-admin"){
+            router.push("/panel-admin");
+          }
+          if(pathname==="/account/login-with-password"){
+            router.push("/profile");
+          }
+         
         }
        
       } else {

@@ -26,7 +26,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
       {GetPhone ? (
         GetPassword ? (
           <Link
-            href="/account/loginWithPassword"
+            href="/account/login-with-password"
             className="text-blue-500 flex items-center"
           >
             ورود با رمز
@@ -34,7 +34,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
           </Link>
         ) : (
           <Link
-            href="/account/setPassword"
+            href="/account/set-password"
             className="text-blue-500 flex items-center"
           >
             ورود با رمز
